@@ -23,10 +23,8 @@ namespace example.Controllers
         [HttpGet]
         public bool Get()
         {
-            Maths m = new Maths();
-
-
-            return false;
+            var x = 2;
+            return Maths.IsEven(x);
         }
     }
 }

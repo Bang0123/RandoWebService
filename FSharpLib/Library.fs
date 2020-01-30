@@ -1,12 +1,13 @@
 ﻿namespace FSharpLib
 
-
 module Maths =  
+    exception MathsException of string
+
     let IsEven x =
-        x % 2 = 0
+        (x % 2) = 0
 
     let IsOdd x =
-        x % 2 <> 0
+        (x % 2) <> 0
 
     let Add x y =
         x + y
@@ -20,4 +21,4 @@ type Login(id:int, username:string, password:string) =
     member this.Username = username
     member this.Password = password
     interface ILogin with 
-        member this.IsValid = this.Username = "connel" && this.Password = "password"
+        member this.IsValid = this.Username = "cunt" && this.Password = "password"

@@ -20,11 +20,26 @@ namespace example.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public bool Get()
+        [HttpGet("isEven")]
+        public bool IsEven([FromQuery] int? num)
         {
-            var x = 2;
-            return Maths.IsEven(x);
+            return Maths.IsEven(num ?? 0);
+        }
+
+        [HttpGet("isOdd")]
+        public bool IsOdd([FromQuery] int? num)
+        {
+            return Maths.IsOdd(num ?? 0);
+        }
+
+        [HttpGet("addInts")]
+        public IActionResult Add([FromQuery] int? num1, int? num2)
+        {
+            if(!num1.HasValue || !num2.HasValue)
+            {
+                return BadRequest();
+            }
+            return Ok(Maths.Add(num1.Value, num2.Value));
         }
     }
 }

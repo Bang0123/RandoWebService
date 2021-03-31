@@ -12,6 +12,13 @@ module Maths =
     let Add x y =
         x + y
 
+    let Random x y =
+        let rand = new System.Random()
+        if x > y then
+            rand.Next(y, x)
+        else
+            rand.Next(x, y)
+
 
 type ILogin =
    abstract member IsValid: bool

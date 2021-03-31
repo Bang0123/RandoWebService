@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RandoWebService.Data;
 
 namespace RandoWebService.Migrations
 {
     [DbContext(typeof(GlobalEliteContext))]
-    partial class GlobalEliteContextModelSnapshot : ModelSnapshot
+    [Migration("20210331134515_rowVersions")]
+    partial class rowVersions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RandoWebService.Data.Models
 {
+    [Table("EliteRefs")]
     public class EliteRef
     {
         public int Id { get; set; }
@@ -11,7 +14,10 @@ namespace RandoWebService.Data.Models
         public int SomeInt { get; set; }
         public double SomeDouble { get; set; }
         public DateTime SomeDateTime { get; set; }
-        public IEnumerable<EliteData> SomeElites { get; set; }
-        public IEnumerable<EliteRef> OtherRefs { get; set; }
+        public ICollection<EliteData> SomeElites { get; set; } = new List<EliteData>();
+        public ICollection<EliteRef> OtherRefs { get; set; } = new List<EliteRef>();
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

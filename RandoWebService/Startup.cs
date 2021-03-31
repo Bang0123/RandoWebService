@@ -45,7 +45,10 @@ namespace RandoWebService
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             using var scope = app.ApplicationServices.CreateScope();
-            scope.ServiceProvider.GetRequiredService<GlobalEliteContext>().Database.EnsureCreated();
+            var ctx = scope.ServiceProvider.GetRequiredService<GlobalEliteContext>();
+            ctx.Database.EnsureCreated();
+
+            // Seeeeder.Initialize(ctx);
 
             if (env.IsDevelopment())
             {

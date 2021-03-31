@@ -1,6 +1,6 @@
 using System;
 
-namespace RandoWebService.Models
+namespace RandoWebService.ViewModels
 {
     public class ErrorViewModel
     {

@@ -1,8 +1,6 @@
 ﻿using FSharpLib;
-using Microsoft.EntityFrameworkCore;
 using RandoWebService.Data.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace RandoWebService.Data
@@ -29,8 +27,8 @@ namespace RandoWebService.Data
                     SomeDateTime = DateTime.Now.AddHours(x),
                     SomeDouble = Maths.Random(0, x * x),
                     SomeInt = Maths.Random(0, x * x),
-                    Title = GetRandomTextSentence(),
-                    Text = GetRandomTextSentence()
+                    Title = GetRandomTextSequence(),
+                    Text = GetRandomTextSequence()
                 }).ToList();
 
 
@@ -40,8 +38,8 @@ namespace RandoWebService.Data
                     SomeDateTime = DateTime.Now.AddDays(x),
                     SomeDouble = Maths.Random(0, x * x),
                     SomeInt = Maths.Random(0, x * x),
-                    Title = GetRandomTextSentence(),
-                    Text = GetRandomTextSentence(),
+                    Title = GetRandomTextSequence(),
+                    Text = GetRandomTextSequence(),
                     SomeRef = eliteRefs[x]
                 }).ToList();
 
@@ -61,7 +59,7 @@ namespace RandoWebService.Data
             context.Database.CommitTransaction();
         }
 
-        private static string GetRandomTextSentence()
+        private static string GetRandomTextSequence()
         {
             return string.Join(" ", Enumerable.Range(0, _random.Next(30)).Select(_ => _words[_random.Next(_words.Length)]).ToList());
         }

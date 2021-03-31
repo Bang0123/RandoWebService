@@ -6,35 +6,36 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RandoWebService.Data;
 using RandoWebService.Data.Models;
 using RandoWebService.Lib;
-using RandoWebService.Shared;
 
 namespace RandoWebService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class EliteDatasController : ControllerBase
     {
         private readonly GlobalEliteContext _context;
-        
-        public EliteDatasController(GlobalEliteContext context, IConfiguration configuration)
+        private readonly ILogger<EliteDatasController> _logger;
+        private readonly IConfiguration _configuration;
+
+        public EliteDatasController(GlobalEliteContext context, ILogger<EliteDatasController> logger, IConfiguration configuration)
         {
             _context = context;
-            Configuration = configuration;
+            _logger = logger;
+            _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // GET: api/EliteDatas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EliteData>>> GetEliteDatas([FromQuery]int? pageIndex)
         {
-            var pageSize = Configuration.GetValue(Constants.PAGE_SIZE, 10);
-            var pg = PaginatedList<EliteData>.CreateAsync(
-            _context.EliteDatas.OrderBy(x => x.Id).AsNoTracking(), pageIndex ?? 1, pageSize);
-            return await pg;
+            _logger.LogInformation("GetEliteDatas");
+            var query = _context.EliteDatas.OrderBy(x => x.Id).AsNoTracking();
+            return await PaginatedList<EliteData>.CreateAsync(query, pageIndex ?? 1, _configuration);
         }
 
         // GET: api/EliteDatas/5

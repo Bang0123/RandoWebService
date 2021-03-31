@@ -5,27 +5,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RandoWebService.Data;
 using RandoWebService.Data.Models;
+using RandoWebService.Lib;
 
 namespace RandoWebService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class EliteRefsController : ControllerBase
     {
         private readonly GlobalEliteContext _context;
+        private readonly ILogger<EliteRefsController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public EliteRefsController(GlobalEliteContext context)
+        public EliteRefsController(GlobalEliteContext context, ILogger<EliteRefsController> logger, IConfiguration configuration)
         {
             _context = context;
+            _logger = logger;
+            _configuration = configuration;
         }
 
         // GET: api/EliteRefs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EliteRef>>> GetEliteRefs()
+        public async Task<ActionResult<IEnumerable<EliteRef>>> GetEliteRefs([FromQuery] int? pageIndex)
         {
-            return await _context.EliteRefs.ToListAsync();
+            _logger.LogInformation("GetEliteRefs");
+            var query = _context.EliteRefs.OrderBy(x => x.Id).AsNoTracking();
+            return await PaginatedList<EliteRef>.CreateAsync(query, pageIndex ?? 1, _configuration);
         }
 
         // GET: api/EliteRefs/5

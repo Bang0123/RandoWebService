@@ -23,7 +23,6 @@ namespace RandoWebService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
             services.AddControllers();
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }));
@@ -74,13 +73,7 @@ namespace RandoWebService
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}"); 
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(ep => ep.MapControllers());
         }
     }
 }

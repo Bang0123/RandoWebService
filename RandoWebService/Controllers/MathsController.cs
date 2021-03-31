@@ -6,6 +6,7 @@ namespace example.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class MathsController : ControllerBase
     {
         private readonly ILogger<MathsController> _logger;

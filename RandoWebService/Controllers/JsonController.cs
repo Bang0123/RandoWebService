@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,17 @@ using System.Threading.Tasks;
 namespace RandoWebService.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class JsonController : ControllerBase
     {
+        private readonly ILogger<JsonController> _logger;
+
+        public JsonController(ILogger<JsonController> logger)
+        {
+            _logger = logger;
+        }
+
         [HttpPost("JsonTest")]
         public IActionResult JsonTest([FromQuery] string str)
         {

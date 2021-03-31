@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RandoWebService.Shared;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,8 +25,9 @@ namespace RandoWebService.Lib
         public bool HasNextPage => PageIndex < TotalPages;
 
         public static async Task<PaginatedList<T>> CreateAsync(
-            IQueryable<T> source, int pageIndex, int pageSize)
+            IQueryable<T> source, int pageIndex, IConfiguration configuration)
         {
+            var pageSize = configuration?.GetValue(Constants.PAGE_SIZE, 10) ?? 10;
             var count = await source.CountAsync();
             var items = await source.Skip(
                 (pageIndex - 1) * pageSize)

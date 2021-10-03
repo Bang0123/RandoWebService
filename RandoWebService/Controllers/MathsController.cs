@@ -17,15 +17,15 @@ namespace example.Controllers
         }
 
         [HttpGet("isEven")]
-        public bool IsEven([FromQuery] int? num)
+        public IActionResult IsEven([FromQuery] int? num)
         {
-            return Maths.IsEven(num ?? 0);
+            return Ok(Maths.IsEven(num ?? 0));
         }
 
         [HttpGet("isOdd")]
-        public bool IsOdd([FromQuery] int? num)
+        public IActionResult IsOdd([FromQuery] int? num)
         {
-            return Maths.IsOdd(num ?? 0);
+            return Ok(Maths.IsOdd(num ?? 0));
         }
 
         [HttpGet("addInts")]

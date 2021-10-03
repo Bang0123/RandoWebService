@@ -24,6 +24,8 @@ namespace RandoWebService.Controllers
         [HttpPost("JsonTest")]
         public IActionResult JsonTest([FromQuery] string str)
         {
+            if (string.IsNullOrWhiteSpace(str)) return BadRequest();
+
             var jt = JToken.Parse(str);
             
             if (jt is JObject { } jo)

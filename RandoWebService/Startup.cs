@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RandoWebService.Data;
 using RandoWebService.Shared;
+using System.IO;
 
 namespace RandoWebService
 {
@@ -29,16 +32,10 @@ namespace RandoWebService
 
             if (Environment.IsDevelopment())
             {
-                services.AddDbContext<GlobalEliteContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString(Constants.GLOBAL_ELITE_CONTEXT)));
-
                 services.AddDatabaseDeveloperPageExceptionFilter();
             }
-            else
-            {
-                services.AddDbContext<GlobalEliteContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString(Constants.GLOBAL_ELITE_CONTEXT)));
-            }
+            services.AddDbContext<GlobalEliteContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString(Constants.GLOBAL_ELITE_CONTEXT)));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -52,6 +49,13 @@ namespace RandoWebService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
+                    builder.Build();
+                });
             }
             else
             {
@@ -59,8 +63,20 @@ namespace RandoWebService
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            const string cacheMaxAge = "604800";
+            app.UseDefaultFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(env.ContentRootPath, "elite-gang/build")),
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append(
+                         "Cache-Control", $"public, max-age={cacheMaxAge}");
+                }
+            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

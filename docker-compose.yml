@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  #randowebservice:
+  #  image: ${DOCKER_REGISTRY-}randowebservice
+  #  build:
+  #    context: .
+  #    dockerfile: RandoWebService/Dockerfile
+  #  depends_on:
+  #    - "postgresdb"
+  #networks:
+  #    - internal
+
+
+  randodb:
+    image: postgres:latest
+    env_file:
+      - randodb.env
+    restart: always
+    volumes:
+      - randodb-data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+networks:
+  internal:
+volumes:
+  randodb-data:

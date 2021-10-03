@@ -3,7 +3,7 @@
 
 namespace Recursion
 {
-    int fibb(int n);
+    int Fibonacci(int n);
 }
 
 #endif

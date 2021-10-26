@@ -1,9 +1,11 @@
 #ifndef RECURSION_H
 #define RECURSION_H
 
-namespace Recursion
+class Recursion
 {
+public:
+    Recursion();
     int Fibonacci(int n);
-}
+};
 
 #endif

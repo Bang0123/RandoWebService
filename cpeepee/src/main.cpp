@@ -7,8 +7,8 @@ using namespace std;
 
 int main() {
     cout << "Hello World\n";
-  
-    cout << Recursion::Fibonacci(2) << endl;
-    cout << Recursion::Fibonacci(9) << endl;
+    Recursion recursion;
+    cout << recursion.Fibonacci(2) << endl;
+    cout << recursion.Fibonacci(9) << endl;
     return 0;
 }

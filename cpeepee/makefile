@@ -7,7 +7,7 @@ CC := g++
 CFLAGS := -Wall -g
 
 TARGET := build/main.out
-.PONY: clean
+.PHONY: clean
 
 all: $(SRC_CPP_O) copy_assets
 	$(CC) $(CFLAGS) $(SRC_CPP_O) -o $(TARGET)
@@ -27,6 +27,5 @@ deep_clean: clean
 	rm -rf $(SRC_CPP_O)
 	rm -rf $(OBJ_FOR_CLEAN_H)
 	
-
 copy_assets:
 	cp -r assets build

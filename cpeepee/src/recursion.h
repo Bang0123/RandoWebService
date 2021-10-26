@@ -5,7 +5,7 @@ class Recursion
 {
 public:
     Recursion();
-    int Fibonacci(int n);
+    static int Fibonacci(int n);
 };
 
 #endif

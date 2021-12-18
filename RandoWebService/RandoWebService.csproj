@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
     <StartupObject></StartupObject>
     <OutputType>Exe</OutputType>
     <UserSecretsId>2664839a-f009-4258-b4f9-41518a498c88</UserSecretsId>
